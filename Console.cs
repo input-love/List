@@ -58,9 +58,15 @@ namespace List
                         RecordToFile();
                         break;
 
-                    default:
+                    case 10:
                         return;
+
+                    default:
+                        Console.WriteLine("Неверный формат ввода!");
+                        break;
                 }
+                Console.WriteLine("--Выполнено!--");
+                Console.ReadKey();
             }
         }
 
@@ -85,12 +91,12 @@ namespace List
 
         private void RecordToFile()
         {
-            int[] array = new int[list.count];
+            int[] array = new int[list.Count];
 
             int count = 0;
             foreach (Node i in list)
             {
-                array[count] = i.data;
+                array[count] = i.Data;
                 count++;
             }
 
@@ -123,7 +129,7 @@ namespace List
         {
             foreach (Node i in list)
             {
-                Console.WriteLine(i.data.ToString());
+                Console.WriteLine(i.Data.ToString());
             }
         }
 
@@ -153,6 +159,7 @@ namespace List
 
         private void PrintMenu()
         {
+            Console.Clear();
             Console.WriteLine("--------------------");
             Console.WriteLine("Что вы хотите сделать?:");
             Console.WriteLine("1.Занести число в начало списка");
@@ -165,6 +172,7 @@ namespace List
             Console.WriteLine("--------------------");
             Console.WriteLine("8.Занести массив данных из файла");
             Console.WriteLine("9.Вывести массив данных в файл");
+            Console.WriteLine("10.Выход из программы");
             Console.WriteLine("--------------------");
         }
 

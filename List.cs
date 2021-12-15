@@ -9,142 +9,140 @@ namespace List
 {
     public class Node
     {
-        public Node(int value)
-        {
-            data = value;
-        }
+        public Node(int value) => Data = value;
+        public Node() => Data = default(int);
 
-        public int data { get; set; }
-        public Node next { get; set; } = null;
-        public Node prev { get; set; } = null;
+        public int Data { get; set; }
+        public Node Next { get; set; } = null;
+        public Node Prev { get; set; } = null;
     }
 
     public class List : IEnumerable
     {
         public void PushFront(int value)
         {
-            if (head == null)
+            if (Head == null)
             {
                 CreateFirstNode(value);
             }
             else
             {
                 Node node = new Node(value);
-                node.data = value;
-                node.next = head;
+                node.Data = value;
+                node.Next = Head;
 
-                head.prev = node;
-                head = head.prev;
+                Head.Prev = node;
+                Head = Head.Prev;
 
-                emptyNode.next = head;
+                EmptyNode.Next = Head;
             }
 
-            count++;
+            Count++;
         }
 
         public void PushBack(int value)
         {
-            if (tail == null)
+            if (Tail == null)
             {
                 CreateFirstNode(value);
             }
             else
             {
                 Node node = new Node(value);
-                node.data = value;
-                node.prev = tail;
+                node.Data = value;
+                node.Prev = Tail;
 
-                tail.next = node;
-                tail = tail.next;
+                Tail.Next = node;
+                Tail = Tail.Next;
             }
 
-            count++;
+            Count++;
         }
 
         public void PopFront()
         {
-            if (count > 1)
+            if (Count > 1)
             {
-                head = head.next;
-                head.prev = null;
+                Head = Head.Next;
+                Head.Prev = null;
 
-                emptyNode.next = head;
-                count--;
+                EmptyNode.Next = Head;
+                Count--;
             }
-            else if (count == 1)
+            else if (Count == 1)
             {
                 DeletePointer();
-                count--;
+                Count--;
             }
         }
 
         public void PopBack()
         {
-            if (count > 1)
+            if (Count > 1)
             {
-                tail = tail.prev;
-                tail.next = null;
-                count--;
+                Tail = Tail.Prev;
+                Tail.Next = null;
+                Count--;
             }
-            else if (count == 1)
+            else if (Count == 1)
             {
                 DeletePointer();
-                count--;
+                Count--;
             }
         }
 
         public void SwapHeadTail()
         {
-            if (count > 2)
+            if (Count > 2)
             {
-                Node tempHeadNext = head.next;
-                Node tempTailPrev = tail.prev;
+                Node tempHeadNext = Head.Next;
+                Node tempTailPrev = Tail.Prev;
 
-                head.next = null;
-                head.prev = tempTailPrev;
-                tempTailPrev.next = head;
+                Head.Next = null;
+                Head.Prev = tempTailPrev;
+                tempTailPrev.Next = Head;
 
 
-                tail.next = tempHeadNext;
-                tail.prev = null;
-                tempHeadNext.prev = tail;
+                Tail.Next = tempHeadNext;
+                Tail.Prev = null;
+                tempHeadNext.Prev = Tail;
 
                 SwapPointer();
-                emptyNode.next = head;
+                EmptyNode.Next = Head;
             }
-            else if (count == 2)
+            else if (Count == 2)
             {
                 SwapPointer();
-                emptyNode.next = head;
+                EmptyNode.Next = Head;
 
-                head.next = tail;
-                head.prev = null;
+                Head.Next = Tail;
+                Head.Prev = null;
 
-                tail.next = null;
-                tail.prev = head;
+                Tail.Next = null;
+                Tail.Prev = Head;
             }
         }
 
         public bool Empty()
         {
-            return !(count > 0);
+            return !(Count > 0);
         }
 
         private void CreateFirstNode(int value)
         {
-            emptyNode.next = head = tail = new Node(value);
+            EmptyNode.Next = Head = Tail = new Node(value);
         }
 
         private void SwapPointer()
         {
-            Node node = head;
-            head = tail;
-            tail = node;
+            Node node = Head;
+            Head = Tail;
+            Tail = node;
         }
 
         private void DeletePointer()
         {
-            emptyNode.next = head = tail = null;
+            EmptyNode.Next = Head = Tail = null;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -154,33 +152,33 @@ namespace List
 
         public ListEnumerator GetEnumerator()
         {
-            return new ListEnumerator(emptyNode);
+            return new ListEnumerator(EmptyNode);
         }
 
-        private Node head { get; set; } = null;
-        private Node tail { get; set; } = null;
+        private Node Head { get; set; } = null;
+        private Node Tail { get; set; } = null;
 
-        private Node emptyNode = new Node(0);
-        public int count { get; private set; } = 0;
+        private Node EmptyNode = new Node();
+        public int Count { get; private set; } = 0;
     }
 
     public class ListEnumerator : IEnumerator
     {
         public ListEnumerator(Node node)
         {
-            initialElement = node;
-            сurrentElement = node;
+            InitialElement = node;
+            CurrentElement = node;
         }
    
         public bool MoveNext()
         {
-            сurrentElement = сurrentElement.next;
-            return сurrentElement != null;
+            CurrentElement = CurrentElement.Next;
+            return CurrentElement != null;
         }
 
         public void Reset()
         {
-            сurrentElement = initialElement;
+            CurrentElement = InitialElement;
         }
 
         object IEnumerator.Current
@@ -195,11 +193,11 @@ namespace List
         {
             get
             {
-                return сurrentElement;
+                return CurrentElement;
             }
         }
 
-        private Node initialElement { get; set; } = null;
-        private Node сurrentElement { get; set; } = null;
+        private Node InitialElement { get; set; } = null;
+        private Node CurrentElement { get; set; } = null;
     }
 }
